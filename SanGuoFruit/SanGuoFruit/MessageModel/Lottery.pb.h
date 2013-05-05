@@ -129,13 +129,13 @@
 @interface LotteryInfo : PBGeneratedMessage {
 @private
   BOOL hasLotteryId_:1;
+  BOOL hasLotteryCost_:1;
   BOOL hasLotteryName_:1;
   BOOL hasLotteryDesc_:1;
-  BOOL hasLotteryCost_:1;
   int32_t lotteryId;
+  int32_t lotteryCost;
   NSString* lotteryName;
   NSString* lotteryDesc;
-  NSString* lotteryCost;
   NSMutableArray* mutablePrizesList;
 }
 - (BOOL) hasLotteryId;
@@ -145,9 +145,9 @@
 @property (readonly) int32_t lotteryId;
 @property (readonly, retain) NSString* lotteryName;
 @property (readonly, retain) NSString* lotteryDesc;
-@property (readonly, retain) NSString* lotteryCost;
+@property (readonly) int32_t lotteryCost;
 - (NSArray*) prizesList;
-- (NSString*) prizesAtIndex:(int32_t) index;
+- (LotteryPrizeInfo*) prizesAtIndex:(int32_t) index;
 
 + (LotteryInfo*) defaultInstance;
 - (LotteryInfo*) defaultInstance;
@@ -199,14 +199,14 @@
 - (LotteryInfo_Builder*) clearLotteryDesc;
 
 - (BOOL) hasLotteryCost;
-- (NSString*) lotteryCost;
-- (LotteryInfo_Builder*) setLotteryCost:(NSString*) value;
+- (int32_t) lotteryCost;
+- (LotteryInfo_Builder*) setLotteryCost:(int32_t) value;
 - (LotteryInfo_Builder*) clearLotteryCost;
 
 - (NSArray*) prizesList;
-- (NSString*) prizesAtIndex:(int32_t) index;
-- (LotteryInfo_Builder*) replacePrizesAtIndex:(int32_t) index with:(NSString*) value;
-- (LotteryInfo_Builder*) addPrizes:(NSString*) value;
+- (LotteryPrizeInfo*) prizesAtIndex:(int32_t) index;
+- (LotteryInfo_Builder*) replacePrizesAtIndex:(int32_t) index with:(LotteryPrizeInfo*) value;
+- (LotteryInfo_Builder*) addPrizes:(LotteryPrizeInfo*) value;
 - (LotteryInfo_Builder*) addAllPrizes:(NSArray*) values;
 - (LotteryInfo_Builder*) clearPrizesList;
 @end

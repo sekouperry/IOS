@@ -8,8 +8,8 @@
 @class AnteUpResultRes_Builder;
 @class AnteUpUserInfo;
 @class AnteUpUserInfo_Builder;
-@class MatchAnteUpRes;
-@class MatchAnteUpRes_Builder;
+@class MatchAnteUpReq;
+@class MatchAnteUpReq_Builder;
 @class MatchListRes;
 @class MatchListRes_Builder;
 @class UserAnteUpRes;
@@ -136,7 +136,7 @@
 - (MatchListRes_Builder*) clearAnteRatioList;
 @end
 
-@interface MatchAnteUpRes : PBGeneratedMessage {
+@interface MatchAnteUpReq : PBGeneratedMessage {
 @private
   BOOL hasRoomId_:1;
   BOOL hasDeskId_:1;
@@ -151,56 +151,56 @@
 - (NSArray*) anteRatioList;
 - (AnteRatio*) anteRatioAtIndex:(int32_t) index;
 
-+ (MatchAnteUpRes*) defaultInstance;
-- (MatchAnteUpRes*) defaultInstance;
++ (MatchAnteUpReq*) defaultInstance;
+- (MatchAnteUpReq*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (MatchAnteUpRes_Builder*) builder;
-+ (MatchAnteUpRes_Builder*) builder;
-+ (MatchAnteUpRes_Builder*) builderWithPrototype:(MatchAnteUpRes*) prototype;
+- (MatchAnteUpReq_Builder*) builder;
++ (MatchAnteUpReq_Builder*) builder;
++ (MatchAnteUpReq_Builder*) builderWithPrototype:(MatchAnteUpReq*) prototype;
 
-+ (MatchAnteUpRes*) parseFromData:(NSData*) data;
-+ (MatchAnteUpRes*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (MatchAnteUpRes*) parseFromInputStream:(NSInputStream*) input;
-+ (MatchAnteUpRes*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (MatchAnteUpRes*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (MatchAnteUpRes*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MatchAnteUpReq*) parseFromData:(NSData*) data;
++ (MatchAnteUpReq*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MatchAnteUpReq*) parseFromInputStream:(NSInputStream*) input;
++ (MatchAnteUpReq*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MatchAnteUpReq*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (MatchAnteUpReq*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface MatchAnteUpRes_Builder : PBGeneratedMessage_Builder {
+@interface MatchAnteUpReq_Builder : PBGeneratedMessage_Builder {
 @private
-  MatchAnteUpRes* result;
+  MatchAnteUpReq* result;
 }
 
-- (MatchAnteUpRes*) defaultInstance;
+- (MatchAnteUpReq*) defaultInstance;
 
-- (MatchAnteUpRes_Builder*) clear;
-- (MatchAnteUpRes_Builder*) clone;
+- (MatchAnteUpReq_Builder*) clear;
+- (MatchAnteUpReq_Builder*) clone;
 
-- (MatchAnteUpRes*) build;
-- (MatchAnteUpRes*) buildPartial;
+- (MatchAnteUpReq*) build;
+- (MatchAnteUpReq*) buildPartial;
 
-- (MatchAnteUpRes_Builder*) mergeFrom:(MatchAnteUpRes*) other;
-- (MatchAnteUpRes_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (MatchAnteUpRes_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (MatchAnteUpReq_Builder*) mergeFrom:(MatchAnteUpReq*) other;
+- (MatchAnteUpReq_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (MatchAnteUpReq_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasRoomId;
 - (int32_t) roomId;
-- (MatchAnteUpRes_Builder*) setRoomId:(int32_t) value;
-- (MatchAnteUpRes_Builder*) clearRoomId;
+- (MatchAnteUpReq_Builder*) setRoomId:(int32_t) value;
+- (MatchAnteUpReq_Builder*) clearRoomId;
 
 - (BOOL) hasDeskId;
 - (int32_t) deskId;
-- (MatchAnteUpRes_Builder*) setDeskId:(int32_t) value;
-- (MatchAnteUpRes_Builder*) clearDeskId;
+- (MatchAnteUpReq_Builder*) setDeskId:(int32_t) value;
+- (MatchAnteUpReq_Builder*) clearDeskId;
 
 - (NSArray*) anteRatioList;
 - (AnteRatio*) anteRatioAtIndex:(int32_t) index;
-- (MatchAnteUpRes_Builder*) replaceAnteRatioAtIndex:(int32_t) index with:(AnteRatio*) value;
-- (MatchAnteUpRes_Builder*) addAnteRatio:(AnteRatio*) value;
-- (MatchAnteUpRes_Builder*) addAllAnteRatio:(NSArray*) values;
-- (MatchAnteUpRes_Builder*) clearAnteRatioList;
+- (MatchAnteUpReq_Builder*) replaceAnteRatioAtIndex:(int32_t) index with:(AnteRatio*) value;
+- (MatchAnteUpReq_Builder*) addAnteRatio:(AnteRatio*) value;
+- (MatchAnteUpReq_Builder*) addAllAnteRatio:(NSArray*) values;
+- (MatchAnteUpReq_Builder*) clearAnteRatioList;
 @end
 
 @interface UserAnteUpRes : PBGeneratedMessage {

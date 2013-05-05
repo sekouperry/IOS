@@ -246,6 +246,7 @@ static GetPrizeListReq* defaultGetPrizeListReqInstance = nil;
 @property (retain) NSString* prizeDesc;
 @property int64_t createTime;
 @property int32_t prizeStatus;
+@property (retain) NSString* prizeImage;
 @end
 
 @implementation PrizeInfo
@@ -285,9 +286,17 @@ static GetPrizeListReq* defaultGetPrizeListReqInstance = nil;
   hasPrizeStatus_ = !!value;
 }
 @synthesize prizeStatus;
+- (BOOL) hasPrizeImage {
+  return !!hasPrizeImage_;
+}
+- (void) setHasPrizeImage:(BOOL) value {
+  hasPrizeImage_ = !!value;
+}
+@synthesize prizeImage;
 - (void) dealloc {
   self.prizeName = nil;
   self.prizeDesc = nil;
+  self.prizeImage = nil;
   [super dealloc];
 }
 - (id) init {
@@ -297,6 +306,7 @@ static GetPrizeListReq* defaultGetPrizeListReqInstance = nil;
     self.prizeDesc = @"";
     self.createTime = 0L;
     self.prizeStatus = 0;
+    self.prizeImage = @"";
   }
   return self;
 }
@@ -328,6 +338,9 @@ static PrizeInfo* defaultPrizeInfoInstance = nil;
   if (!self.hasPrizeStatus) {
     return NO;
   }
+  if (!self.hasPrizeImage) {
+    return NO;
+  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -345,6 +358,9 @@ static PrizeInfo* defaultPrizeInfoInstance = nil;
   }
   if (self.hasPrizeStatus) {
     [output writeInt32:5 value:self.prizeStatus];
+  }
+  if (self.hasPrizeImage) {
+    [output writeString:6 value:self.prizeImage];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -369,6 +385,9 @@ static PrizeInfo* defaultPrizeInfoInstance = nil;
   }
   if (self.hasPrizeStatus) {
     size += computeInt32Size(5, self.prizeStatus);
+  }
+  if (self.hasPrizeImage) {
+    size += computeStringSize(6, self.prizeImage);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -460,6 +479,9 @@ static PrizeInfo* defaultPrizeInfoInstance = nil;
   if (other.hasPrizeStatus) {
     [self setPrizeStatus:other.prizeStatus];
   }
+  if (other.hasPrizeImage) {
+    [self setPrizeImage:other.prizeImage];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -499,6 +521,10 @@ static PrizeInfo* defaultPrizeInfoInstance = nil;
       }
       case 40: {
         [self setPrizeStatus:[input readInt32]];
+        break;
+      }
+      case 50: {
+        [self setPrizeImage:[input readString]];
         break;
       }
     }
@@ -582,6 +608,22 @@ static PrizeInfo* defaultPrizeInfoInstance = nil;
 - (PrizeInfo_Builder*) clearPrizeStatus {
   result.hasPrizeStatus = NO;
   result.prizeStatus = 0;
+  return self;
+}
+- (BOOL) hasPrizeImage {
+  return result.hasPrizeImage;
+}
+- (NSString*) prizeImage {
+  return result.prizeImage;
+}
+- (PrizeInfo_Builder*) setPrizeImage:(NSString*) value {
+  result.hasPrizeImage = YES;
+  result.prizeImage = value;
+  return self;
+}
+- (PrizeInfo_Builder*) clearPrizeImage {
+  result.hasPrizeImage = NO;
+  result.prizeImage = @"";
   return self;
 }
 @end
@@ -968,19 +1010,19 @@ static GetPrizeMethodReq* defaultGetPrizeMethodReqInstance = nil;
 @end
 
 @interface PrizeTypeUnit ()
-@property int32_t type;
+@property int32_t types;
 @property int32_t prizeName;
 @end
 
 @implementation PrizeTypeUnit
 
-- (BOOL) hasType {
-  return !!hasType_;
+- (BOOL) hasTypes {
+  return !!hasTypes_;
 }
-- (void) setHasType:(BOOL) value {
-  hasType_ = !!value;
+- (void) setHasTypes:(BOOL) value {
+  hasTypes_ = !!value;
 }
-@synthesize type;
+@synthesize types;
 - (BOOL) hasPrizeName {
   return !!hasPrizeName_;
 }
@@ -993,7 +1035,7 @@ static GetPrizeMethodReq* defaultGetPrizeMethodReqInstance = nil;
 }
 - (id) init {
   if ((self = [super init])) {
-    self.type = 0;
+    self.types = 0;
     self.prizeName = 0;
   }
   return self;
@@ -1011,7 +1053,7 @@ static PrizeTypeUnit* defaultPrizeTypeUnitInstance = nil;
   return defaultPrizeTypeUnitInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasType) {
+  if (!self.hasTypes) {
     return NO;
   }
   if (!self.hasPrizeName) {
@@ -1020,8 +1062,8 @@ static PrizeTypeUnit* defaultPrizeTypeUnitInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasType) {
-    [output writeInt32:1 value:self.type];
+  if (self.hasTypes) {
+    [output writeInt32:1 value:self.types];
   }
   if (self.hasPrizeName) {
     [output writeInt32:2 value:self.prizeName];
@@ -1035,8 +1077,8 @@ static PrizeTypeUnit* defaultPrizeTypeUnitInstance = nil;
   }
 
   size = 0;
-  if (self.hasType) {
-    size += computeInt32Size(1, self.type);
+  if (self.hasTypes) {
+    size += computeInt32Size(1, self.types);
   }
   if (self.hasPrizeName) {
     size += computeInt32Size(2, self.prizeName);
@@ -1116,8 +1158,8 @@ static PrizeTypeUnit* defaultPrizeTypeUnitInstance = nil;
   if (other == [PrizeTypeUnit defaultInstance]) {
     return self;
   }
-  if (other.hasType) {
-    [self setType:other.type];
+  if (other.hasTypes) {
+    [self setTypes:other.types];
   }
   if (other.hasPrizeName) {
     [self setPrizeName:other.prizeName];
@@ -1144,7 +1186,7 @@ static PrizeTypeUnit* defaultPrizeTypeUnitInstance = nil;
         break;
       }
       case 8: {
-        [self setType:[input readInt32]];
+        [self setTypes:[input readInt32]];
         break;
       }
       case 16: {
@@ -1154,20 +1196,20 @@ static PrizeTypeUnit* defaultPrizeTypeUnitInstance = nil;
     }
   }
 }
-- (BOOL) hasType {
-  return result.hasType;
+- (BOOL) hasTypes {
+  return result.hasTypes;
 }
-- (int32_t) type {
-  return result.type;
+- (int32_t) types {
+  return result.types;
 }
-- (PrizeTypeUnit_Builder*) setType:(int32_t) value {
-  result.hasType = YES;
-  result.type = value;
+- (PrizeTypeUnit_Builder*) setTypes:(int32_t) value {
+  result.hasTypes = YES;
+  result.types = value;
   return self;
 }
-- (PrizeTypeUnit_Builder*) clearType {
-  result.hasType = NO;
-  result.type = 0;
+- (PrizeTypeUnit_Builder*) clearTypes {
+  result.hasTypes = NO;
+  result.types = 0;
   return self;
 }
 - (BOOL) hasPrizeName {
@@ -1391,7 +1433,7 @@ static GetPrizeMethodRes* defaultGetPrizeMethodResInstance = nil;
 
 @interface GetPrizeReq ()
 @property int64_t prizeId;
-@property int32_t type;
+@property int32_t types;
 @end
 
 @implementation GetPrizeReq
@@ -1403,20 +1445,20 @@ static GetPrizeMethodRes* defaultGetPrizeMethodResInstance = nil;
   hasPrizeId_ = !!value;
 }
 @synthesize prizeId;
-- (BOOL) hasType {
-  return !!hasType_;
+- (BOOL) hasTypes {
+  return !!hasTypes_;
 }
-- (void) setHasType:(BOOL) value {
-  hasType_ = !!value;
+- (void) setHasTypes:(BOOL) value {
+  hasTypes_ = !!value;
 }
-@synthesize type;
+@synthesize types;
 - (void) dealloc {
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.prizeId = 0L;
-    self.type = 0;
+    self.types = 0;
   }
   return self;
 }
@@ -1436,7 +1478,7 @@ static GetPrizeReq* defaultGetPrizeReqInstance = nil;
   if (!self.hasPrizeId) {
     return NO;
   }
-  if (!self.hasType) {
+  if (!self.hasTypes) {
     return NO;
   }
   return YES;
@@ -1445,8 +1487,8 @@ static GetPrizeReq* defaultGetPrizeReqInstance = nil;
   if (self.hasPrizeId) {
     [output writeInt64:1 value:self.prizeId];
   }
-  if (self.hasType) {
-    [output writeInt32:2 value:self.type];
+  if (self.hasTypes) {
+    [output writeInt32:2 value:self.types];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1460,8 +1502,8 @@ static GetPrizeReq* defaultGetPrizeReqInstance = nil;
   if (self.hasPrizeId) {
     size += computeInt64Size(1, self.prizeId);
   }
-  if (self.hasType) {
-    size += computeInt32Size(2, self.type);
+  if (self.hasTypes) {
+    size += computeInt32Size(2, self.types);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1541,8 +1583,8 @@ static GetPrizeReq* defaultGetPrizeReqInstance = nil;
   if (other.hasPrizeId) {
     [self setPrizeId:other.prizeId];
   }
-  if (other.hasType) {
-    [self setType:other.type];
+  if (other.hasTypes) {
+    [self setTypes:other.types];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1570,7 +1612,7 @@ static GetPrizeReq* defaultGetPrizeReqInstance = nil;
         break;
       }
       case 16: {
-        [self setType:[input readInt32]];
+        [self setTypes:[input readInt32]];
         break;
       }
     }
@@ -1592,20 +1634,20 @@ static GetPrizeReq* defaultGetPrizeReqInstance = nil;
   result.prizeId = 0L;
   return self;
 }
-- (BOOL) hasType {
-  return result.hasType;
+- (BOOL) hasTypes {
+  return result.hasTypes;
 }
-- (int32_t) type {
-  return result.type;
+- (int32_t) types {
+  return result.types;
 }
-- (GetPrizeReq_Builder*) setType:(int32_t) value {
-  result.hasType = YES;
-  result.type = value;
+- (GetPrizeReq_Builder*) setTypes:(int32_t) value {
+  result.hasTypes = YES;
+  result.types = value;
   return self;
 }
-- (GetPrizeReq_Builder*) clearType {
-  result.hasType = NO;
-  result.type = 0;
+- (GetPrizeReq_Builder*) clearTypes {
+  result.hasTypes = NO;
+  result.types = 0;
   return self;
 }
 @end

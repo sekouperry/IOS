@@ -426,7 +426,7 @@ static LotteryPrizeInfo* defaultLotteryPrizeInfoInstance = nil;
 @property int32_t lotteryId;
 @property (retain) NSString* lotteryName;
 @property (retain) NSString* lotteryDesc;
-@property (retain) NSString* lotteryCost;
+@property int32_t lotteryCost;
 @property (retain) NSMutableArray* mutablePrizesList;
 @end
 
@@ -464,7 +464,6 @@ static LotteryPrizeInfo* defaultLotteryPrizeInfoInstance = nil;
 - (void) dealloc {
   self.lotteryName = nil;
   self.lotteryDesc = nil;
-  self.lotteryCost = nil;
   self.mutablePrizesList = nil;
   [super dealloc];
 }
@@ -473,7 +472,7 @@ static LotteryPrizeInfo* defaultLotteryPrizeInfoInstance = nil;
     self.lotteryId = 0;
     self.lotteryName = @"";
     self.lotteryDesc = @"";
-    self.lotteryCost = @"";
+    self.lotteryCost = 0;
   }
   return self;
 }
@@ -492,7 +491,7 @@ static LotteryInfo* defaultLotteryInfoInstance = nil;
 - (NSArray*) prizesList {
   return mutablePrizesList;
 }
-- (NSString*) prizesAtIndex:(int32_t) index {
+- (LotteryPrizeInfo*) prizesAtIndex:(int32_t) index {
   id value = [mutablePrizesList objectAtIndex:index];
   return value;
 }
@@ -509,6 +508,11 @@ static LotteryInfo* defaultLotteryInfoInstance = nil;
   if (!self.hasLotteryCost) {
     return NO;
   }
+  for (LotteryPrizeInfo* element in self.prizesList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -522,10 +526,10 @@ static LotteryInfo* defaultLotteryInfoInstance = nil;
     [output writeString:3 value:self.lotteryDesc];
   }
   if (self.hasLotteryCost) {
-    [output writeString:4 value:self.lotteryCost];
+    [output writeInt32:4 value:self.lotteryCost];
   }
-  for (NSString* element in self.mutablePrizesList) {
-    [output writeString:5 value:element];
+  for (LotteryPrizeInfo* element in self.prizesList) {
+    [output writeMessage:5 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -546,15 +550,10 @@ static LotteryInfo* defaultLotteryInfoInstance = nil;
     size += computeStringSize(3, self.lotteryDesc);
   }
   if (self.hasLotteryCost) {
-    size += computeStringSize(4, self.lotteryCost);
+    size += computeInt32Size(4, self.lotteryCost);
   }
-  {
-    int32_t dataSize = 0;
-    for (NSString* element in self.mutablePrizesList) {
-      dataSize += computeStringSizeNoTag(element);
-    }
-    size += dataSize;
-    size += 1 * self.mutablePrizesList.count;
+  for (LotteryPrizeInfo* element in self.prizesList) {
+    size += computeMessageSize(5, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -682,12 +681,14 @@ static LotteryInfo* defaultLotteryInfoInstance = nil;
         [self setLotteryDesc:[input readString]];
         break;
       }
-      case 34: {
-        [self setLotteryCost:[input readString]];
+      case 32: {
+        [self setLotteryCost:[input readInt32]];
         break;
       }
       case 42: {
-        [self addPrizes:[input readString]];
+        LotteryPrizeInfo_Builder* subBuilder = [LotteryPrizeInfo builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addPrizes:[subBuilder buildPartial]];
         break;
       }
     }
@@ -744,37 +745,28 @@ static LotteryInfo* defaultLotteryInfoInstance = nil;
 - (BOOL) hasLotteryCost {
   return result.hasLotteryCost;
 }
-- (NSString*) lotteryCost {
+- (int32_t) lotteryCost {
   return result.lotteryCost;
 }
-- (LotteryInfo_Builder*) setLotteryCost:(NSString*) value {
+- (LotteryInfo_Builder*) setLotteryCost:(int32_t) value {
   result.hasLotteryCost = YES;
   result.lotteryCost = value;
   return self;
 }
 - (LotteryInfo_Builder*) clearLotteryCost {
   result.hasLotteryCost = NO;
-  result.lotteryCost = @"";
+  result.lotteryCost = 0;
   return self;
 }
 - (NSArray*) prizesList {
-  if (result.mutablePrizesList == nil) {
-    return [NSArray array];
-  }
+  if (result.mutablePrizesList == nil) { return [NSArray array]; }
   return result.mutablePrizesList;
 }
-- (NSString*) prizesAtIndex:(int32_t) index {
+- (LotteryPrizeInfo*) prizesAtIndex:(int32_t) index {
   return [result prizesAtIndex:index];
 }
-- (LotteryInfo_Builder*) replacePrizesAtIndex:(int32_t) index with:(NSString*) value {
+- (LotteryInfo_Builder*) replacePrizesAtIndex:(int32_t) index with:(LotteryPrizeInfo*) value {
   [result.mutablePrizesList replaceObjectAtIndex:index withObject:value];
-  return self;
-}
-- (LotteryInfo_Builder*) addPrizes:(NSString*) value {
-  if (result.mutablePrizesList == nil) {
-    result.mutablePrizesList = [NSMutableArray array];
-  }
-  [result.mutablePrizesList addObject:value];
   return self;
 }
 - (LotteryInfo_Builder*) addAllPrizes:(NSArray*) values {
@@ -786,6 +778,13 @@ static LotteryInfo* defaultLotteryInfoInstance = nil;
 }
 - (LotteryInfo_Builder*) clearPrizesList {
   result.mutablePrizesList = nil;
+  return self;
+}
+- (LotteryInfo_Builder*) addPrizes:(LotteryPrizeInfo*) value {
+  if (result.mutablePrizesList == nil) {
+    result.mutablePrizesList = [NSMutableArray array];
+  }
+  [result.mutablePrizesList addObject:value];
   return self;
 }
 @end

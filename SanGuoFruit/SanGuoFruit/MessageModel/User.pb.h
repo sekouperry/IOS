@@ -128,6 +128,7 @@
   BOOL hasLottery_:1;
   BOOL hasVip_:1;
   BOOL hasUserName_:1;
+  BOOL hasPassword_:1;
   BOOL hasPhotoUrl_:1;
   int64_t experience;
   int64_t nextExperience;
@@ -137,10 +138,12 @@
   int32_t lottery;
   int32_t vip;
   NSString* userName;
+  NSString* password;
   NSString* photoUrl;
 }
 - (BOOL) hasUserId;
 - (BOOL) hasUserName;
+- (BOOL) hasPassword;
 - (BOOL) hasRank;
 - (BOOL) hasExperience;
 - (BOOL) hasNextExperience;
@@ -150,6 +153,7 @@
 - (BOOL) hasVip;
 @property (readonly) int32_t userId;
 @property (readonly, retain) NSString* userName;
+@property (readonly, retain) NSString* password;
 @property (readonly) int32_t rank;
 @property (readonly) int64_t experience;
 @property (readonly) int64_t nextExperience;
@@ -201,6 +205,11 @@
 - (NSString*) userName;
 - (UserRegisterRes_Builder*) setUserName:(NSString*) value;
 - (UserRegisterRes_Builder*) clearUserName;
+
+- (BOOL) hasPassword;
+- (NSString*) password;
+- (UserRegisterRes_Builder*) setPassword:(NSString*) value;
+- (UserRegisterRes_Builder*) clearPassword;
 
 - (BOOL) hasRank;
 - (int32_t) rank;
@@ -467,18 +476,18 @@
 @private
   BOOL hasExperience_:1;
   BOOL hasNextExperience_:1;
+  BOOL hasCoin_:1;
   BOOL hasUserId_:1;
   BOOL hasRank_:1;
-  BOOL hasCoin_:1;
   BOOL hasLottery_:1;
   BOOL hasVip_:1;
   BOOL hasUserName_:1;
   BOOL hasPhotoUrl_:1;
   int64_t experience;
   int64_t nextExperience;
+  int64_t coin;
   int32_t userId;
   int32_t rank;
-  int32_t coin;
   int32_t lottery;
   int32_t vip;
   NSString* userName;
@@ -498,7 +507,7 @@
 @property (readonly) int32_t rank;
 @property (readonly) int64_t experience;
 @property (readonly) int64_t nextExperience;
-@property (readonly) int32_t coin;
+@property (readonly) int64_t coin;
 @property (readonly) int32_t lottery;
 @property (readonly, retain) NSString* photoUrl;
 @property (readonly) int32_t vip;
@@ -563,8 +572,8 @@
 - (UserLoginRes_Builder*) clearNextExperience;
 
 - (BOOL) hasCoin;
-- (int32_t) coin;
-- (UserLoginRes_Builder*) setCoin:(int32_t) value;
+- (int64_t) coin;
+- (UserLoginRes_Builder*) setCoin:(int64_t) value;
 - (UserLoginRes_Builder*) clearCoin;
 
 - (BOOL) hasLottery;
@@ -586,14 +595,14 @@
 @interface UserAttribute : PBGeneratedMessage {
 @private
   BOOL hasAttribute_:1;
-  BOOL hasValue_:1;
+  BOOL hasData_:1;
   NSString* attribute;
-  NSString* value;
+  NSString* data;
 }
 - (BOOL) hasAttribute;
-- (BOOL) hasValue;
+- (BOOL) hasData;
 @property (readonly, retain) NSString* attribute;
-@property (readonly, retain) NSString* value;
+@property (readonly, retain) NSString* data;
 
 + (UserAttribute*) defaultInstance;
 - (UserAttribute*) defaultInstance;
@@ -634,10 +643,10 @@
 - (UserAttribute_Builder*) setAttribute:(NSString*) value;
 - (UserAttribute_Builder*) clearAttribute;
 
-- (BOOL) hasValue;
-- (NSString*) value;
-- (UserAttribute_Builder*) setValue:(NSString*) value;
-- (UserAttribute_Builder*) clearValue;
+- (BOOL) hasData;
+- (NSString*) data;
+- (UserAttribute_Builder*) setData:(NSString*) value;
+- (UserAttribute_Builder*) clearData;
 @end
 
 @interface UserAttributeChangeRes : PBGeneratedMessage {

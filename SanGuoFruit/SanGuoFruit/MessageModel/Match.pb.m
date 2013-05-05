@@ -482,13 +482,13 @@ static MatchListRes* defaultMatchListResInstance = nil;
 }
 @end
 
-@interface MatchAnteUpRes ()
+@interface MatchAnteUpReq ()
 @property int32_t roomId;
 @property int32_t deskId;
 @property (retain) NSMutableArray* mutableAnteRatioList;
 @end
 
-@implementation MatchAnteUpRes
+@implementation MatchAnteUpReq
 
 - (BOOL) hasRoomId {
   return !!hasRoomId_;
@@ -516,17 +516,17 @@ static MatchListRes* defaultMatchListResInstance = nil;
   }
   return self;
 }
-static MatchAnteUpRes* defaultMatchAnteUpResInstance = nil;
+static MatchAnteUpReq* defaultMatchAnteUpReqInstance = nil;
 + (void) initialize {
-  if (self == [MatchAnteUpRes class]) {
-    defaultMatchAnteUpResInstance = [[MatchAnteUpRes alloc] init];
+  if (self == [MatchAnteUpReq class]) {
+    defaultMatchAnteUpReqInstance = [[MatchAnteUpReq alloc] init];
   }
 }
-+ (MatchAnteUpRes*) defaultInstance {
-  return defaultMatchAnteUpResInstance;
++ (MatchAnteUpReq*) defaultInstance {
+  return defaultMatchAnteUpReqInstance;
 }
-- (MatchAnteUpRes*) defaultInstance {
-  return defaultMatchAnteUpResInstance;
+- (MatchAnteUpReq*) defaultInstance {
+  return defaultMatchAnteUpReqInstance;
 }
 - (NSArray*) anteRatioList {
   return mutableAnteRatioList;
@@ -581,40 +581,40 @@ static MatchAnteUpRes* defaultMatchAnteUpResInstance = nil;
   memoizedSerializedSize = size;
   return size;
 }
-+ (MatchAnteUpRes*) parseFromData:(NSData*) data {
-  return (MatchAnteUpRes*)[[[MatchAnteUpRes builder] mergeFromData:data] build];
++ (MatchAnteUpReq*) parseFromData:(NSData*) data {
+  return (MatchAnteUpReq*)[[[MatchAnteUpReq builder] mergeFromData:data] build];
 }
-+ (MatchAnteUpRes*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (MatchAnteUpRes*)[[[MatchAnteUpRes builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (MatchAnteUpReq*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MatchAnteUpReq*)[[[MatchAnteUpReq builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (MatchAnteUpRes*) parseFromInputStream:(NSInputStream*) input {
-  return (MatchAnteUpRes*)[[[MatchAnteUpRes builder] mergeFromInputStream:input] build];
++ (MatchAnteUpReq*) parseFromInputStream:(NSInputStream*) input {
+  return (MatchAnteUpReq*)[[[MatchAnteUpReq builder] mergeFromInputStream:input] build];
 }
-+ (MatchAnteUpRes*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (MatchAnteUpRes*)[[[MatchAnteUpRes builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (MatchAnteUpReq*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MatchAnteUpReq*)[[[MatchAnteUpReq builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (MatchAnteUpRes*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (MatchAnteUpRes*)[[[MatchAnteUpRes builder] mergeFromCodedInputStream:input] build];
++ (MatchAnteUpReq*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MatchAnteUpReq*)[[[MatchAnteUpReq builder] mergeFromCodedInputStream:input] build];
 }
-+ (MatchAnteUpRes*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (MatchAnteUpRes*)[[[MatchAnteUpRes builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (MatchAnteUpReq*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MatchAnteUpReq*)[[[MatchAnteUpReq builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (MatchAnteUpRes_Builder*) builder {
-  return [[[MatchAnteUpRes_Builder alloc] init] autorelease];
++ (MatchAnteUpReq_Builder*) builder {
+  return [[[MatchAnteUpReq_Builder alloc] init] autorelease];
 }
-+ (MatchAnteUpRes_Builder*) builderWithPrototype:(MatchAnteUpRes*) prototype {
-  return [[MatchAnteUpRes builder] mergeFrom:prototype];
++ (MatchAnteUpReq_Builder*) builderWithPrototype:(MatchAnteUpReq*) prototype {
+  return [[MatchAnteUpReq builder] mergeFrom:prototype];
 }
-- (MatchAnteUpRes_Builder*) builder {
-  return [MatchAnteUpRes builder];
+- (MatchAnteUpReq_Builder*) builder {
+  return [MatchAnteUpReq builder];
 }
 @end
 
-@interface MatchAnteUpRes_Builder()
-@property (retain) MatchAnteUpRes* result;
+@interface MatchAnteUpReq_Builder()
+@property (retain) MatchAnteUpReq* result;
 @end
 
-@implementation MatchAnteUpRes_Builder
+@implementation MatchAnteUpReq_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -622,34 +622,34 @@ static MatchAnteUpRes* defaultMatchAnteUpResInstance = nil;
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[MatchAnteUpRes alloc] init] autorelease];
+    self.result = [[[MatchAnteUpReq alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (MatchAnteUpRes_Builder*) clear {
-  self.result = [[[MatchAnteUpRes alloc] init] autorelease];
+- (MatchAnteUpReq_Builder*) clear {
+  self.result = [[[MatchAnteUpReq alloc] init] autorelease];
   return self;
 }
-- (MatchAnteUpRes_Builder*) clone {
-  return [MatchAnteUpRes builderWithPrototype:result];
+- (MatchAnteUpReq_Builder*) clone {
+  return [MatchAnteUpReq builderWithPrototype:result];
 }
-- (MatchAnteUpRes*) defaultInstance {
-  return [MatchAnteUpRes defaultInstance];
+- (MatchAnteUpReq*) defaultInstance {
+  return [MatchAnteUpReq defaultInstance];
 }
-- (MatchAnteUpRes*) build {
+- (MatchAnteUpReq*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (MatchAnteUpRes*) buildPartial {
-  MatchAnteUpRes* returnMe = [[result retain] autorelease];
+- (MatchAnteUpReq*) buildPartial {
+  MatchAnteUpReq* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (MatchAnteUpRes_Builder*) mergeFrom:(MatchAnteUpRes*) other {
-  if (other == [MatchAnteUpRes defaultInstance]) {
+- (MatchAnteUpReq_Builder*) mergeFrom:(MatchAnteUpReq*) other {
+  if (other == [MatchAnteUpReq defaultInstance]) {
     return self;
   }
   if (other.hasRoomId) {
@@ -667,10 +667,10 @@ static MatchAnteUpRes* defaultMatchAnteUpResInstance = nil;
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (MatchAnteUpRes_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (MatchAnteUpReq_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (MatchAnteUpRes_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (MatchAnteUpReq_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -708,12 +708,12 @@ static MatchAnteUpRes* defaultMatchAnteUpResInstance = nil;
 - (int32_t) roomId {
   return result.roomId;
 }
-- (MatchAnteUpRes_Builder*) setRoomId:(int32_t) value {
+- (MatchAnteUpReq_Builder*) setRoomId:(int32_t) value {
   result.hasRoomId = YES;
   result.roomId = value;
   return self;
 }
-- (MatchAnteUpRes_Builder*) clearRoomId {
+- (MatchAnteUpReq_Builder*) clearRoomId {
   result.hasRoomId = NO;
   result.roomId = 0;
   return self;
@@ -724,12 +724,12 @@ static MatchAnteUpRes* defaultMatchAnteUpResInstance = nil;
 - (int32_t) deskId {
   return result.deskId;
 }
-- (MatchAnteUpRes_Builder*) setDeskId:(int32_t) value {
+- (MatchAnteUpReq_Builder*) setDeskId:(int32_t) value {
   result.hasDeskId = YES;
   result.deskId = value;
   return self;
 }
-- (MatchAnteUpRes_Builder*) clearDeskId {
+- (MatchAnteUpReq_Builder*) clearDeskId {
   result.hasDeskId = NO;
   result.deskId = 0;
   return self;
@@ -741,22 +741,22 @@ static MatchAnteUpRes* defaultMatchAnteUpResInstance = nil;
 - (AnteRatio*) anteRatioAtIndex:(int32_t) index {
   return [result anteRatioAtIndex:index];
 }
-- (MatchAnteUpRes_Builder*) replaceAnteRatioAtIndex:(int32_t) index with:(AnteRatio*) value {
+- (MatchAnteUpReq_Builder*) replaceAnteRatioAtIndex:(int32_t) index with:(AnteRatio*) value {
   [result.mutableAnteRatioList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (MatchAnteUpRes_Builder*) addAllAnteRatio:(NSArray*) values {
+- (MatchAnteUpReq_Builder*) addAllAnteRatio:(NSArray*) values {
   if (result.mutableAnteRatioList == nil) {
     result.mutableAnteRatioList = [NSMutableArray array];
   }
   [result.mutableAnteRatioList addObjectsFromArray:values];
   return self;
 }
-- (MatchAnteUpRes_Builder*) clearAnteRatioList {
+- (MatchAnteUpReq_Builder*) clearAnteRatioList {
   result.mutableAnteRatioList = nil;
   return self;
 }
-- (MatchAnteUpRes_Builder*) addAnteRatio:(AnteRatio*) value {
+- (MatchAnteUpReq_Builder*) addAnteRatio:(AnteRatio*) value {
   if (result.mutableAnteRatioList == nil) {
     result.mutableAnteRatioList = [NSMutableArray array];
   }

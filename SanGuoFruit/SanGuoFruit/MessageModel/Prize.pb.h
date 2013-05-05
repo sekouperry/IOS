@@ -89,22 +89,26 @@
   BOOL hasPrizeStatus_:1;
   BOOL hasPrizeName_:1;
   BOOL hasPrizeDesc_:1;
+  BOOL hasPrizeImage_:1;
   int64_t prizeId;
   int64_t createTime;
   int32_t prizeStatus;
   NSString* prizeName;
   NSString* prizeDesc;
+  NSString* prizeImage;
 }
 - (BOOL) hasPrizeId;
 - (BOOL) hasPrizeName;
 - (BOOL) hasPrizeDesc;
 - (BOOL) hasCreateTime;
 - (BOOL) hasPrizeStatus;
+- (BOOL) hasPrizeImage;
 @property (readonly) int64_t prizeId;
 @property (readonly, retain) NSString* prizeName;
 @property (readonly, retain) NSString* prizeDesc;
 @property (readonly) int64_t createTime;
 @property (readonly) int32_t prizeStatus;
+@property (readonly, retain) NSString* prizeImage;
 
 + (PrizeInfo*) defaultInstance;
 - (PrizeInfo*) defaultInstance;
@@ -164,6 +168,11 @@
 - (int32_t) prizeStatus;
 - (PrizeInfo_Builder*) setPrizeStatus:(int32_t) value;
 - (PrizeInfo_Builder*) clearPrizeStatus;
+
+- (BOOL) hasPrizeImage;
+- (NSString*) prizeImage;
+- (PrizeInfo_Builder*) setPrizeImage:(NSString*) value;
+- (PrizeInfo_Builder*) clearPrizeImage;
 @end
 
 @interface GetPrizeListRes : PBGeneratedMessage {
@@ -265,14 +274,14 @@
 
 @interface PrizeTypeUnit : PBGeneratedMessage {
 @private
-  BOOL hasType_:1;
+  BOOL hasTypes_:1;
   BOOL hasPrizeName_:1;
-  int32_t type;
+  int32_t types;
   int32_t prizeName;
 }
-- (BOOL) hasType;
+- (BOOL) hasTypes;
 - (BOOL) hasPrizeName;
-@property (readonly) int32_t type;
+@property (readonly) int32_t types;
 @property (readonly) int32_t prizeName;
 
 + (PrizeTypeUnit*) defaultInstance;
@@ -309,10 +318,10 @@
 - (PrizeTypeUnit_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (PrizeTypeUnit_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasType;
-- (int32_t) type;
-- (PrizeTypeUnit_Builder*) setType:(int32_t) value;
-- (PrizeTypeUnit_Builder*) clearType;
+- (BOOL) hasTypes;
+- (int32_t) types;
+- (PrizeTypeUnit_Builder*) setTypes:(int32_t) value;
+- (PrizeTypeUnit_Builder*) clearTypes;
 
 - (BOOL) hasPrizeName;
 - (int32_t) prizeName;
@@ -372,14 +381,14 @@
 @interface GetPrizeReq : PBGeneratedMessage {
 @private
   BOOL hasPrizeId_:1;
-  BOOL hasType_:1;
+  BOOL hasTypes_:1;
   int64_t prizeId;
-  int32_t type;
+  int32_t types;
 }
 - (BOOL) hasPrizeId;
-- (BOOL) hasType;
+- (BOOL) hasTypes;
 @property (readonly) int64_t prizeId;
-@property (readonly) int32_t type;
+@property (readonly) int32_t types;
 
 + (GetPrizeReq*) defaultInstance;
 - (GetPrizeReq*) defaultInstance;
@@ -420,10 +429,10 @@
 - (GetPrizeReq_Builder*) setPrizeId:(int64_t) value;
 - (GetPrizeReq_Builder*) clearPrizeId;
 
-- (BOOL) hasType;
-- (int32_t) type;
-- (GetPrizeReq_Builder*) setType:(int32_t) value;
-- (GetPrizeReq_Builder*) clearType;
+- (BOOL) hasTypes;
+- (int32_t) types;
+- (GetPrizeReq_Builder*) setTypes:(int32_t) value;
+- (GetPrizeReq_Builder*) clearTypes;
 @end
 
 @interface GetPrizeRes : PBGeneratedMessage {

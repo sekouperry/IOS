@@ -16,6 +16,8 @@
 @class GetRoomListRes_Builder;
 @class RoomAnteRes;
 @class RoomAnteRes_Builder;
+@class RoomExitReq;
+@class RoomExitReq_Builder;
 @class RoomExitRes;
 @class RoomExitRes_Builder;
 @class RoomInfo;
@@ -394,20 +396,44 @@
 
 @interface RoomUserInfo : PBGeneratedMessage {
 @private
+  BOOL hasExperience_:1;
+  BOOL hasNextExperience_:1;
+  BOOL hasCoin_:1;
   BOOL hasUserId_:1;
-  BOOL hasUserName_:1;
   BOOL hasUserRank_:1;
+  BOOL hasLottery_:1;
+  BOOL hasVip_:1;
+  BOOL hasUserName_:1;
+  BOOL hasPhotoUrl_:1;
+  int64_t experience;
+  int64_t nextExperience;
+  int64_t coin;
   int32_t userId;
+  int32_t userRank;
+  int32_t lottery;
+  int32_t vip;
   NSString* userName;
-  NSString* userRank;
+  NSString* photoUrl;
   NSMutableArray* mutableAnteInfosList;
 }
 - (BOOL) hasUserId;
 - (BOOL) hasUserName;
 - (BOOL) hasUserRank;
+- (BOOL) hasExperience;
+- (BOOL) hasNextExperience;
+- (BOOL) hasCoin;
+- (BOOL) hasLottery;
+- (BOOL) hasPhotoUrl;
+- (BOOL) hasVip;
 @property (readonly) int32_t userId;
 @property (readonly, retain) NSString* userName;
-@property (readonly, retain) NSString* userRank;
+@property (readonly) int32_t userRank;
+@property (readonly) int64_t experience;
+@property (readonly) int64_t nextExperience;
+@property (readonly) int64_t coin;
+@property (readonly) int32_t lottery;
+@property (readonly, retain) NSString* photoUrl;
+@property (readonly) int32_t vip;
 - (NSArray*) anteInfosList;
 - (AnteInfo*) anteInfosAtIndex:(int32_t) index;
 
@@ -456,9 +482,39 @@
 - (RoomUserInfo_Builder*) clearUserName;
 
 - (BOOL) hasUserRank;
-- (NSString*) userRank;
-- (RoomUserInfo_Builder*) setUserRank:(NSString*) value;
+- (int32_t) userRank;
+- (RoomUserInfo_Builder*) setUserRank:(int32_t) value;
 - (RoomUserInfo_Builder*) clearUserRank;
+
+- (BOOL) hasExperience;
+- (int64_t) experience;
+- (RoomUserInfo_Builder*) setExperience:(int64_t) value;
+- (RoomUserInfo_Builder*) clearExperience;
+
+- (BOOL) hasNextExperience;
+- (int64_t) nextExperience;
+- (RoomUserInfo_Builder*) setNextExperience:(int64_t) value;
+- (RoomUserInfo_Builder*) clearNextExperience;
+
+- (BOOL) hasCoin;
+- (int64_t) coin;
+- (RoomUserInfo_Builder*) setCoin:(int64_t) value;
+- (RoomUserInfo_Builder*) clearCoin;
+
+- (BOOL) hasLottery;
+- (int32_t) lottery;
+- (RoomUserInfo_Builder*) setLottery:(int32_t) value;
+- (RoomUserInfo_Builder*) clearLottery;
+
+- (BOOL) hasPhotoUrl;
+- (NSString*) photoUrl;
+- (RoomUserInfo_Builder*) setPhotoUrl:(NSString*) value;
+- (RoomUserInfo_Builder*) clearPhotoUrl;
+
+- (BOOL) hasVip;
+- (int32_t) vip;
+- (RoomUserInfo_Builder*) setVip:(int32_t) value;
+- (RoomUserInfo_Builder*) clearVip;
 
 - (NSArray*) anteInfosList;
 - (AnteInfo*) anteInfosAtIndex:(int32_t) index;
@@ -683,6 +739,54 @@
 - (int32_t) vip;
 - (EnterRoomPushRes_Builder*) setVip:(int32_t) value;
 - (EnterRoomPushRes_Builder*) clearVip;
+@end
+
+@interface RoomExitReq : PBGeneratedMessage {
+@private
+  BOOL hasRoomId_:1;
+  int32_t roomId;
+}
+- (BOOL) hasRoomId;
+@property (readonly) int32_t roomId;
+
++ (RoomExitReq*) defaultInstance;
+- (RoomExitReq*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RoomExitReq_Builder*) builder;
++ (RoomExitReq_Builder*) builder;
++ (RoomExitReq_Builder*) builderWithPrototype:(RoomExitReq*) prototype;
+
++ (RoomExitReq*) parseFromData:(NSData*) data;
++ (RoomExitReq*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RoomExitReq*) parseFromInputStream:(NSInputStream*) input;
++ (RoomExitReq*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RoomExitReq*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RoomExitReq*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RoomExitReq_Builder : PBGeneratedMessage_Builder {
+@private
+  RoomExitReq* result;
+}
+
+- (RoomExitReq*) defaultInstance;
+
+- (RoomExitReq_Builder*) clear;
+- (RoomExitReq_Builder*) clone;
+
+- (RoomExitReq*) build;
+- (RoomExitReq*) buildPartial;
+
+- (RoomExitReq_Builder*) mergeFrom:(RoomExitReq*) other;
+- (RoomExitReq_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RoomExitReq_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasRoomId;
+- (int32_t) roomId;
+- (RoomExitReq_Builder*) setRoomId:(int32_t) value;
+- (RoomExitReq_Builder*) clearRoomId;
 @end
 
 @interface RoomExitRes : PBGeneratedMessage {

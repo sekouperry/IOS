@@ -1454,7 +1454,13 @@ static AnteInfo* defaultAnteInfoInstance = nil;
 @interface RoomUserInfo ()
 @property int32_t userId;
 @property (retain) NSString* userName;
-@property (retain) NSString* userRank;
+@property int32_t userRank;
+@property int64_t experience;
+@property int64_t nextExperience;
+@property int64_t coin;
+@property int32_t lottery;
+@property (retain) NSString* photoUrl;
+@property int32_t vip;
 @property (retain) NSMutableArray* mutableAnteInfosList;
 @end
 
@@ -1481,10 +1487,52 @@ static AnteInfo* defaultAnteInfoInstance = nil;
   hasUserRank_ = !!value;
 }
 @synthesize userRank;
+- (BOOL) hasExperience {
+  return !!hasExperience_;
+}
+- (void) setHasExperience:(BOOL) value {
+  hasExperience_ = !!value;
+}
+@synthesize experience;
+- (BOOL) hasNextExperience {
+  return !!hasNextExperience_;
+}
+- (void) setHasNextExperience:(BOOL) value {
+  hasNextExperience_ = !!value;
+}
+@synthesize nextExperience;
+- (BOOL) hasCoin {
+  return !!hasCoin_;
+}
+- (void) setHasCoin:(BOOL) value {
+  hasCoin_ = !!value;
+}
+@synthesize coin;
+- (BOOL) hasLottery {
+  return !!hasLottery_;
+}
+- (void) setHasLottery:(BOOL) value {
+  hasLottery_ = !!value;
+}
+@synthesize lottery;
+- (BOOL) hasPhotoUrl {
+  return !!hasPhotoUrl_;
+}
+- (void) setHasPhotoUrl:(BOOL) value {
+  hasPhotoUrl_ = !!value;
+}
+@synthesize photoUrl;
+- (BOOL) hasVip {
+  return !!hasVip_;
+}
+- (void) setHasVip:(BOOL) value {
+  hasVip_ = !!value;
+}
+@synthesize vip;
 @synthesize mutableAnteInfosList;
 - (void) dealloc {
   self.userName = nil;
-  self.userRank = nil;
+  self.photoUrl = nil;
   self.mutableAnteInfosList = nil;
   [super dealloc];
 }
@@ -1492,7 +1540,13 @@ static AnteInfo* defaultAnteInfoInstance = nil;
   if ((self = [super init])) {
     self.userId = 0;
     self.userName = @"";
-    self.userRank = @"";
+    self.userRank = 0;
+    self.experience = 0L;
+    self.nextExperience = 0L;
+    self.coin = 0L;
+    self.lottery = 0;
+    self.photoUrl = @"";
+    self.vip = 0;
   }
   return self;
 }
@@ -1525,6 +1579,24 @@ static RoomUserInfo* defaultRoomUserInfoInstance = nil;
   if (!self.hasUserRank) {
     return NO;
   }
+  if (!self.hasExperience) {
+    return NO;
+  }
+  if (!self.hasNextExperience) {
+    return NO;
+  }
+  if (!self.hasCoin) {
+    return NO;
+  }
+  if (!self.hasLottery) {
+    return NO;
+  }
+  if (!self.hasPhotoUrl) {
+    return NO;
+  }
+  if (!self.hasVip) {
+    return NO;
+  }
   for (AnteInfo* element in self.anteInfosList) {
     if (!element.isInitialized) {
       return NO;
@@ -1540,10 +1612,28 @@ static RoomUserInfo* defaultRoomUserInfoInstance = nil;
     [output writeString:2 value:self.userName];
   }
   if (self.hasUserRank) {
-    [output writeString:3 value:self.userRank];
+    [output writeInt32:3 value:self.userRank];
+  }
+  if (self.hasExperience) {
+    [output writeInt64:4 value:self.experience];
+  }
+  if (self.hasNextExperience) {
+    [output writeInt64:5 value:self.nextExperience];
+  }
+  if (self.hasCoin) {
+    [output writeInt64:6 value:self.coin];
+  }
+  if (self.hasLottery) {
+    [output writeInt32:7 value:self.lottery];
+  }
+  if (self.hasPhotoUrl) {
+    [output writeString:8 value:self.photoUrl];
+  }
+  if (self.hasVip) {
+    [output writeInt32:9 value:self.vip];
   }
   for (AnteInfo* element in self.anteInfosList) {
-    [output writeMessage:4 value:element];
+    [output writeMessage:10 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1561,10 +1651,28 @@ static RoomUserInfo* defaultRoomUserInfoInstance = nil;
     size += computeStringSize(2, self.userName);
   }
   if (self.hasUserRank) {
-    size += computeStringSize(3, self.userRank);
+    size += computeInt32Size(3, self.userRank);
+  }
+  if (self.hasExperience) {
+    size += computeInt64Size(4, self.experience);
+  }
+  if (self.hasNextExperience) {
+    size += computeInt64Size(5, self.nextExperience);
+  }
+  if (self.hasCoin) {
+    size += computeInt64Size(6, self.coin);
+  }
+  if (self.hasLottery) {
+    size += computeInt32Size(7, self.lottery);
+  }
+  if (self.hasPhotoUrl) {
+    size += computeStringSize(8, self.photoUrl);
+  }
+  if (self.hasVip) {
+    size += computeInt32Size(9, self.vip);
   }
   for (AnteInfo* element in self.anteInfosList) {
-    size += computeMessageSize(4, element);
+    size += computeMessageSize(10, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1650,6 +1758,24 @@ static RoomUserInfo* defaultRoomUserInfoInstance = nil;
   if (other.hasUserRank) {
     [self setUserRank:other.userRank];
   }
+  if (other.hasExperience) {
+    [self setExperience:other.experience];
+  }
+  if (other.hasNextExperience) {
+    [self setNextExperience:other.nextExperience];
+  }
+  if (other.hasCoin) {
+    [self setCoin:other.coin];
+  }
+  if (other.hasLottery) {
+    [self setLottery:other.lottery];
+  }
+  if (other.hasPhotoUrl) {
+    [self setPhotoUrl:other.photoUrl];
+  }
+  if (other.hasVip) {
+    [self setVip:other.vip];
+  }
   if (other.mutableAnteInfosList.count > 0) {
     if (result.mutableAnteInfosList == nil) {
       result.mutableAnteInfosList = [NSMutableArray array];
@@ -1685,11 +1811,35 @@ static RoomUserInfo* defaultRoomUserInfoInstance = nil;
         [self setUserName:[input readString]];
         break;
       }
-      case 26: {
-        [self setUserRank:[input readString]];
+      case 24: {
+        [self setUserRank:[input readInt32]];
         break;
       }
-      case 34: {
+      case 32: {
+        [self setExperience:[input readInt64]];
+        break;
+      }
+      case 40: {
+        [self setNextExperience:[input readInt64]];
+        break;
+      }
+      case 48: {
+        [self setCoin:[input readInt64]];
+        break;
+      }
+      case 56: {
+        [self setLottery:[input readInt32]];
+        break;
+      }
+      case 66: {
+        [self setPhotoUrl:[input readString]];
+        break;
+      }
+      case 72: {
+        [self setVip:[input readInt32]];
+        break;
+      }
+      case 82: {
         AnteInfo_Builder* subBuilder = [AnteInfo builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addAnteInfos:[subBuilder buildPartial]];
@@ -1733,17 +1883,113 @@ static RoomUserInfo* defaultRoomUserInfoInstance = nil;
 - (BOOL) hasUserRank {
   return result.hasUserRank;
 }
-- (NSString*) userRank {
+- (int32_t) userRank {
   return result.userRank;
 }
-- (RoomUserInfo_Builder*) setUserRank:(NSString*) value {
+- (RoomUserInfo_Builder*) setUserRank:(int32_t) value {
   result.hasUserRank = YES;
   result.userRank = value;
   return self;
 }
 - (RoomUserInfo_Builder*) clearUserRank {
   result.hasUserRank = NO;
-  result.userRank = @"";
+  result.userRank = 0;
+  return self;
+}
+- (BOOL) hasExperience {
+  return result.hasExperience;
+}
+- (int64_t) experience {
+  return result.experience;
+}
+- (RoomUserInfo_Builder*) setExperience:(int64_t) value {
+  result.hasExperience = YES;
+  result.experience = value;
+  return self;
+}
+- (RoomUserInfo_Builder*) clearExperience {
+  result.hasExperience = NO;
+  result.experience = 0L;
+  return self;
+}
+- (BOOL) hasNextExperience {
+  return result.hasNextExperience;
+}
+- (int64_t) nextExperience {
+  return result.nextExperience;
+}
+- (RoomUserInfo_Builder*) setNextExperience:(int64_t) value {
+  result.hasNextExperience = YES;
+  result.nextExperience = value;
+  return self;
+}
+- (RoomUserInfo_Builder*) clearNextExperience {
+  result.hasNextExperience = NO;
+  result.nextExperience = 0L;
+  return self;
+}
+- (BOOL) hasCoin {
+  return result.hasCoin;
+}
+- (int64_t) coin {
+  return result.coin;
+}
+- (RoomUserInfo_Builder*) setCoin:(int64_t) value {
+  result.hasCoin = YES;
+  result.coin = value;
+  return self;
+}
+- (RoomUserInfo_Builder*) clearCoin {
+  result.hasCoin = NO;
+  result.coin = 0L;
+  return self;
+}
+- (BOOL) hasLottery {
+  return result.hasLottery;
+}
+- (int32_t) lottery {
+  return result.lottery;
+}
+- (RoomUserInfo_Builder*) setLottery:(int32_t) value {
+  result.hasLottery = YES;
+  result.lottery = value;
+  return self;
+}
+- (RoomUserInfo_Builder*) clearLottery {
+  result.hasLottery = NO;
+  result.lottery = 0;
+  return self;
+}
+- (BOOL) hasPhotoUrl {
+  return result.hasPhotoUrl;
+}
+- (NSString*) photoUrl {
+  return result.photoUrl;
+}
+- (RoomUserInfo_Builder*) setPhotoUrl:(NSString*) value {
+  result.hasPhotoUrl = YES;
+  result.photoUrl = value;
+  return self;
+}
+- (RoomUserInfo_Builder*) clearPhotoUrl {
+  result.hasPhotoUrl = NO;
+  result.photoUrl = @"";
+  return self;
+}
+- (BOOL) hasVip {
+  return result.hasVip;
+}
+- (int32_t) vip {
+  return result.vip;
+}
+- (RoomUserInfo_Builder*) setVip:(int32_t) value {
+  result.hasVip = YES;
+  result.vip = value;
+  return self;
+}
+- (RoomUserInfo_Builder*) clearVip {
+  result.hasVip = NO;
+  result.vip = 0;
   return self;
 }
 - (NSArray*) anteInfosList {
@@ -2665,6 +2911,186 @@ static EnterRoomPushRes* defaultEnterRoomPushResInstance = nil;
 - (EnterRoomPushRes_Builder*) clearVip {
   result.hasVip = NO;
   result.vip = 0;
+  return self;
+}
+@end
+
+@interface RoomExitReq ()
+@property int32_t roomId;
+@end
+
+@implementation RoomExitReq
+
+- (BOOL) hasRoomId {
+  return !!hasRoomId_;
+}
+- (void) setHasRoomId:(BOOL) value {
+  hasRoomId_ = !!value;
+}
+@synthesize roomId;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.roomId = 0;
+  }
+  return self;
+}
+static RoomExitReq* defaultRoomExitReqInstance = nil;
++ (void) initialize {
+  if (self == [RoomExitReq class]) {
+    defaultRoomExitReqInstance = [[RoomExitReq alloc] init];
+  }
+}
++ (RoomExitReq*) defaultInstance {
+  return defaultRoomExitReqInstance;
+}
+- (RoomExitReq*) defaultInstance {
+  return defaultRoomExitReqInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasRoomId) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasRoomId) {
+    [output writeInt32:1 value:self.roomId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasRoomId) {
+    size += computeInt32Size(1, self.roomId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RoomExitReq*) parseFromData:(NSData*) data {
+  return (RoomExitReq*)[[[RoomExitReq builder] mergeFromData:data] build];
+}
++ (RoomExitReq*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RoomExitReq*)[[[RoomExitReq builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RoomExitReq*) parseFromInputStream:(NSInputStream*) input {
+  return (RoomExitReq*)[[[RoomExitReq builder] mergeFromInputStream:input] build];
+}
++ (RoomExitReq*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RoomExitReq*)[[[RoomExitReq builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RoomExitReq*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RoomExitReq*)[[[RoomExitReq builder] mergeFromCodedInputStream:input] build];
+}
++ (RoomExitReq*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RoomExitReq*)[[[RoomExitReq builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RoomExitReq_Builder*) builder {
+  return [[[RoomExitReq_Builder alloc] init] autorelease];
+}
++ (RoomExitReq_Builder*) builderWithPrototype:(RoomExitReq*) prototype {
+  return [[RoomExitReq builder] mergeFrom:prototype];
+}
+- (RoomExitReq_Builder*) builder {
+  return [RoomExitReq builder];
+}
+@end
+
+@interface RoomExitReq_Builder()
+@property (retain) RoomExitReq* result;
+@end
+
+@implementation RoomExitReq_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RoomExitReq alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RoomExitReq_Builder*) clear {
+  self.result = [[[RoomExitReq alloc] init] autorelease];
+  return self;
+}
+- (RoomExitReq_Builder*) clone {
+  return [RoomExitReq builderWithPrototype:result];
+}
+- (RoomExitReq*) defaultInstance {
+  return [RoomExitReq defaultInstance];
+}
+- (RoomExitReq*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RoomExitReq*) buildPartial {
+  RoomExitReq* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RoomExitReq_Builder*) mergeFrom:(RoomExitReq*) other {
+  if (other == [RoomExitReq defaultInstance]) {
+    return self;
+  }
+  if (other.hasRoomId) {
+    [self setRoomId:other.roomId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RoomExitReq_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RoomExitReq_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setRoomId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasRoomId {
+  return result.hasRoomId;
+}
+- (int32_t) roomId {
+  return result.roomId;
+}
+- (RoomExitReq_Builder*) setRoomId:(int32_t) value {
+  result.hasRoomId = YES;
+  result.roomId = value;
+  return self;
+}
+- (RoomExitReq_Builder*) clearRoomId {
+  result.hasRoomId = NO;
+  result.roomId = 0;
   return self;
 }
 @end

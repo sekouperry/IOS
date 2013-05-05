@@ -11,7 +11,13 @@
 #import "AppDelegate.h"
 #import "IntroLayer.h"
 
+#import "GameTable.h"
 #import "User.pb.h"
+
+#import "MessageSender.h"
+#import "SocketController.h"
+
+#import "LoginViewController.h"
 
 @implementation MyNavigationController
 
@@ -49,7 +55,7 @@
 	if(director.runningScene == nil) {
 		// Add the first scene to the stack. The director will draw it immediately into the framebuffer. (Animation is started automatically when the view is displayed.)
 		// and add the scene to the stack. The director will run it when it automatically when the view is displayed.
-		[director runWithScene: [IntroLayer scene]];
+		[director runWithScene: [CCTransitionFade transitionWithDuration:0.7 scene:[GameTable scene]]];
 	}
 }
 @end
@@ -79,7 +85,7 @@
 	director_.wantsFullScreenLayout = YES;
 	
 	// Display FSP and SPF
-	[director_ setDisplayStats:YES];
+//	[director_ setDisplayStats:YES];
 	
 	// set FPS at 60
 	[director_ setAnimationInterval:1.0/60];
@@ -114,7 +120,10 @@
 	[CCTexture2D PVRImagesHavePremultipliedAlpha:YES];
 	
 	// Create a Navigation Controller with the Director
-	navController_ = [[MyNavigationController alloc] initWithRootViewController:director_];
+    
+    
+    LoginViewController *vc = [[[LoginViewController alloc] init] autorelease];
+	navController_ = [[MyNavigationController alloc] initWithRootViewController:vc];
 	navController_.navigationBarHidden = YES;
 
 	// for rotation and other messages
@@ -126,20 +135,24 @@
 	// make main window visible
 	[window_ makeKeyAndVisible];
     
-    UserRegisterReq_Builder *aa= [UserRegisterReq builder];
-    [aa setPassword:@"111111"];
-	[aa setUuid:@"abcdefg"];
-    [aa setVersionCode:1];
-    [aa setRobotModel:0];
-    [aa setPlatformCode:2];
+//    UserRegisterReq_Builder *aa= [UserRegisterReq builder];
+//    [aa setPassword:@"1"];
+//	[aa setUuid:@"1"];
+//    [aa setVersionCode:1];
+//    [aa setRobotModel:0];
+//    [aa setPlatformCode:2];
+//    
+//    UserRegisterReq *bb = [aa build];
+//    
+//    NSData *data = [bb data];
+//    
+//    UserRegisterReq *ww = [UserRegisterReq parseFromData:data];
+//    
+//    NSLog(@"OK!");
     
-    UserRegisterReq *bb = [aa build];
+    [SocketController sharedMsgSender];
     
-    NSData *data = [bb data];
     
-    UserRegisterReq *ww = [UserRegisterReq parseFromData:data];
-    
-    NSLog(@"OK!");
     
 	return YES;
 }

@@ -404,6 +404,7 @@ static UserRegisterReq* defaultUserRegisterReqInstance = nil;
 @interface UserRegisterRes ()
 @property int32_t userId;
 @property (retain) NSString* userName;
+@property (retain) NSString* password;
 @property int32_t rank;
 @property int64_t experience;
 @property int64_t nextExperience;
@@ -429,6 +430,13 @@ static UserRegisterReq* defaultUserRegisterReqInstance = nil;
   hasUserName_ = !!value;
 }
 @synthesize userName;
+- (BOOL) hasPassword {
+  return !!hasPassword_;
+}
+- (void) setHasPassword:(BOOL) value {
+  hasPassword_ = !!value;
+}
+@synthesize password;
 - (BOOL) hasRank {
   return !!hasRank_;
 }
@@ -480,6 +488,7 @@ static UserRegisterReq* defaultUserRegisterReqInstance = nil;
 @synthesize vip;
 - (void) dealloc {
   self.userName = nil;
+  self.password = nil;
   self.photoUrl = nil;
   [super dealloc];
 }
@@ -487,6 +496,7 @@ static UserRegisterReq* defaultUserRegisterReqInstance = nil;
   if ((self = [super init])) {
     self.userId = 0;
     self.userName = @"";
+    self.password = @"";
     self.rank = 0;
     self.experience = 0L;
     self.nextExperience = 0L;
@@ -514,6 +524,9 @@ static UserRegisterRes* defaultUserRegisterResInstance = nil;
     return NO;
   }
   if (!self.hasUserName) {
+    return NO;
+  }
+  if (!self.hasPassword) {
     return NO;
   }
   if (!self.hasRank) {
@@ -546,26 +559,29 @@ static UserRegisterRes* defaultUserRegisterResInstance = nil;
   if (self.hasUserName) {
     [output writeString:2 value:self.userName];
   }
+  if (self.hasPassword) {
+    [output writeString:3 value:self.password];
+  }
   if (self.hasRank) {
-    [output writeInt32:3 value:self.rank];
+    [output writeInt32:4 value:self.rank];
   }
   if (self.hasExperience) {
-    [output writeInt64:4 value:self.experience];
+    [output writeInt64:5 value:self.experience];
   }
   if (self.hasNextExperience) {
-    [output writeInt64:5 value:self.nextExperience];
+    [output writeInt64:6 value:self.nextExperience];
   }
   if (self.hasCoin) {
-    [output writeInt64:6 value:self.coin];
+    [output writeInt64:7 value:self.coin];
   }
   if (self.hasLottery) {
-    [output writeInt32:7 value:self.lottery];
+    [output writeInt32:8 value:self.lottery];
   }
   if (self.hasPhotoUrl) {
-    [output writeString:8 value:self.photoUrl];
+    [output writeString:9 value:self.photoUrl];
   }
   if (self.hasVip) {
-    [output writeInt32:9 value:self.vip];
+    [output writeInt32:10 value:self.vip];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -582,26 +598,29 @@ static UserRegisterRes* defaultUserRegisterResInstance = nil;
   if (self.hasUserName) {
     size += computeStringSize(2, self.userName);
   }
+  if (self.hasPassword) {
+    size += computeStringSize(3, self.password);
+  }
   if (self.hasRank) {
-    size += computeInt32Size(3, self.rank);
+    size += computeInt32Size(4, self.rank);
   }
   if (self.hasExperience) {
-    size += computeInt64Size(4, self.experience);
+    size += computeInt64Size(5, self.experience);
   }
   if (self.hasNextExperience) {
-    size += computeInt64Size(5, self.nextExperience);
+    size += computeInt64Size(6, self.nextExperience);
   }
   if (self.hasCoin) {
-    size += computeInt64Size(6, self.coin);
+    size += computeInt64Size(7, self.coin);
   }
   if (self.hasLottery) {
-    size += computeInt32Size(7, self.lottery);
+    size += computeInt32Size(8, self.lottery);
   }
   if (self.hasPhotoUrl) {
-    size += computeStringSize(8, self.photoUrl);
+    size += computeStringSize(9, self.photoUrl);
   }
   if (self.hasVip) {
-    size += computeInt32Size(9, self.vip);
+    size += computeInt32Size(10, self.vip);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -684,6 +703,9 @@ static UserRegisterRes* defaultUserRegisterResInstance = nil;
   if (other.hasUserName) {
     [self setUserName:other.userName];
   }
+  if (other.hasPassword) {
+    [self setPassword:other.password];
+  }
   if (other.hasRank) {
     [self setRank:other.rank];
   }
@@ -734,31 +756,35 @@ static UserRegisterRes* defaultUserRegisterResInstance = nil;
         [self setUserName:[input readString]];
         break;
       }
-      case 24: {
-        [self setRank:[input readInt32]];
+      case 26: {
+        [self setPassword:[input readString]];
         break;
       }
       case 32: {
-        [self setExperience:[input readInt64]];
+        [self setRank:[input readInt32]];
         break;
       }
       case 40: {
-        [self setNextExperience:[input readInt64]];
+        [self setExperience:[input readInt64]];
         break;
       }
       case 48: {
-        [self setCoin:[input readInt64]];
+        [self setNextExperience:[input readInt64]];
         break;
       }
       case 56: {
+        [self setCoin:[input readInt64]];
+        break;
+      }
+      case 64: {
         [self setLottery:[input readInt32]];
         break;
       }
-      case 66: {
+      case 74: {
         [self setPhotoUrl:[input readString]];
         break;
       }
-      case 72: {
+      case 80: {
         [self setVip:[input readInt32]];
         break;
       }
@@ -795,6 +821,22 @@ static UserRegisterRes* defaultUserRegisterResInstance = nil;
 - (UserRegisterRes_Builder*) clearUserName {
   result.hasUserName = NO;
   result.userName = @"";
+  return self;
+}
+- (BOOL) hasPassword {
+  return result.hasPassword;
+}
+- (NSString*) password {
+  return result.password;
+}
+- (UserRegisterRes_Builder*) setPassword:(NSString*) value {
+  result.hasPassword = YES;
+  result.password = value;
+  return self;
+}
+- (UserRegisterRes_Builder*) clearPassword {
+  result.hasPassword = NO;
+  result.password = @"";
   return self;
 }
 - (BOOL) hasRank {
@@ -1833,7 +1875,7 @@ static UserLoginReq* defaultUserLoginReqInstance = nil;
 @property int32_t rank;
 @property int64_t experience;
 @property int64_t nextExperience;
-@property int32_t coin;
+@property int64_t coin;
 @property int32_t lottery;
 @property (retain) NSString* photoUrl;
 @property int32_t vip;
@@ -1916,7 +1958,7 @@ static UserLoginReq* defaultUserLoginReqInstance = nil;
     self.rank = 0;
     self.experience = 0L;
     self.nextExperience = 0L;
-    self.coin = 0;
+    self.coin = 0L;
     self.lottery = 0;
     self.photoUrl = @"";
     self.vip = 0;
@@ -1982,7 +2024,7 @@ static UserLoginRes* defaultUserLoginResInstance = nil;
     [output writeInt64:5 value:self.nextExperience];
   }
   if (self.hasCoin) {
-    [output writeInt32:6 value:self.coin];
+    [output writeInt64:6 value:self.coin];
   }
   if (self.hasLottery) {
     [output writeInt32:7 value:self.lottery];
@@ -2018,7 +2060,7 @@ static UserLoginRes* defaultUserLoginResInstance = nil;
     size += computeInt64Size(5, self.nextExperience);
   }
   if (self.hasCoin) {
-    size += computeInt32Size(6, self.coin);
+    size += computeInt64Size(6, self.coin);
   }
   if (self.hasLottery) {
     size += computeInt32Size(7, self.lottery);
@@ -2173,7 +2215,7 @@ static UserLoginRes* defaultUserLoginResInstance = nil;
         break;
       }
       case 48: {
-        [self setCoin:[input readInt32]];
+        [self setCoin:[input readInt64]];
         break;
       }
       case 56: {
@@ -2274,17 +2316,17 @@ static UserLoginRes* defaultUserLoginResInstance = nil;
 - (BOOL) hasCoin {
   return result.hasCoin;
 }
-- (int32_t) coin {
+- (int64_t) coin {
   return result.coin;
 }
-- (UserLoginRes_Builder*) setCoin:(int32_t) value {
+- (UserLoginRes_Builder*) setCoin:(int64_t) value {
   result.hasCoin = YES;
   result.coin = value;
   return self;
 }
 - (UserLoginRes_Builder*) clearCoin {
   result.hasCoin = NO;
-  result.coin = 0;
+  result.coin = 0L;
   return self;
 }
 - (BOOL) hasLottery {
@@ -2339,7 +2381,7 @@ static UserLoginRes* defaultUserLoginResInstance = nil;
 
 @interface UserAttribute ()
 @property (retain) NSString* attribute;
-@property (retain) NSString* value;
+@property (retain) NSString* data;
 @end
 
 @implementation UserAttribute
@@ -2347,26 +2389,26 @@ static UserLoginRes* defaultUserLoginResInstance = nil;
 - (BOOL) hasAttribute {
   return !!hasAttribute_;
 }
-- (void) setHasAttribute:(BOOL) theValue {
-  hasAttribute_ = !!theValue;
+- (void) setHasAttribute:(BOOL) value {
+  hasAttribute_ = !!value;
 }
 @synthesize attribute;
-- (BOOL) hasValue {
-  return !!hasValue_;
+- (BOOL) hasData {
+  return !!hasData_;
 }
-- (void) setHasValue:(BOOL) theValue {
-  hasValue_ = !!theValue;
+- (void) setHasData:(BOOL) value {
+  hasData_ = !!value;
 }
-@synthesize value;
+@synthesize data;
 - (void) dealloc {
   self.attribute = nil;
-  self.value = nil;
+  self.data = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.attribute = @"";
-    self.value = @"";
+    self.data = @"";
   }
   return self;
 }
@@ -2386,7 +2428,7 @@ static UserAttribute* defaultUserAttributeInstance = nil;
   if (!self.hasAttribute) {
     return NO;
   }
-  if (!self.hasValue) {
+  if (!self.hasData) {
     return NO;
   }
   return YES;
@@ -2395,8 +2437,8 @@ static UserAttribute* defaultUserAttributeInstance = nil;
   if (self.hasAttribute) {
     [output writeString:1 value:self.attribute];
   }
-  if (self.hasValue) {
-    [output writeString:2 value:self.value];
+  if (self.hasData) {
+    [output writeString:2 value:self.data];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -2410,8 +2452,8 @@ static UserAttribute* defaultUserAttributeInstance = nil;
   if (self.hasAttribute) {
     size += computeStringSize(1, self.attribute);
   }
-  if (self.hasValue) {
-    size += computeStringSize(2, self.value);
+  if (self.hasData) {
+    size += computeStringSize(2, self.data);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2491,8 +2533,8 @@ static UserAttribute* defaultUserAttributeInstance = nil;
   if (other.hasAttribute) {
     [self setAttribute:other.attribute];
   }
-  if (other.hasValue) {
-    [self setValue:other.value];
+  if (other.hasData) {
+    [self setData:other.data];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -2520,7 +2562,7 @@ static UserAttribute* defaultUserAttributeInstance = nil;
         break;
       }
       case 18: {
-        [self setValue:[input readString]];
+        [self setData:[input readString]];
         break;
       }
     }
@@ -2542,20 +2584,20 @@ static UserAttribute* defaultUserAttributeInstance = nil;
   result.attribute = @"";
   return self;
 }
-- (BOOL) hasValue {
-  return result.hasValue;
+- (BOOL) hasData {
+  return result.hasData;
 }
-- (NSString*) value {
-  return result.value;
+- (NSString*) data {
+  return result.data;
 }
-- (UserAttribute_Builder*) setValue:(NSString*) value {
-  result.hasValue = YES;
-  result.value = value;
+- (UserAttribute_Builder*) setData:(NSString*) value {
+  result.hasData = YES;
+  result.data = value;
   return self;
 }
-- (UserAttribute_Builder*) clearValue {
-  result.hasValue = NO;
-  result.value = @"";
+- (UserAttribute_Builder*) clearData {
+  result.hasData = NO;
+  result.data = @"";
   return self;
 }
 @end
